@@ -5,21 +5,20 @@ import matplotlib.font_manager as fm
 import os
 from sklearn.metrics import mean_absolute_error, mean_squared_error
 import numpy as np
-
-# Streamlit Cloud에서도 동작 가능한 한글 폰트 설정 (NanumGothic)
 import urllib.request
-font_url = "https://github.com/naver/nanumfont/blob/master/ttf/NanumGothic.ttf?raw=true"
+
+# ✅ Streamlit Cloud에서도 동작 가능한 한글 폰트 설정
+font_url = "https://github.com/google/fonts/raw/main/ofl/nanumgothic/NanumGothic-Regular.ttf"
 font_path = "/tmp/NanumGothic.ttf"
 
-# 폰트 다운로드 (최초 1회)
 if not os.path.exists(font_path):
     urllib.request.urlretrieve(font_url, font_path)
 
-# matplotlib에 폰트 적용
 fm.fontManager.addfont(font_path)
 font_name = fm.FontProperties(fname=font_path).get_name()
 plt.rc("font", family=font_name)
 plt.rcParams["axes.unicode_minus"] = False
+
 
 # ② 데이터 불러오기
 df = pd.read_csv("article_predictions_final.csv", parse_dates=["date"])
