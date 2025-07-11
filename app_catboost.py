@@ -59,4 +59,6 @@ st.pyplot(fig)
 
 # ⑦ 데이터 테이블 (📄 전체 데이터 보기)
 st.subheader("📄 전체 수요 예측 데이터")
+# ✅ 날짜에서 시간 제거
+filtered_df["date"] = filtered_df["date"].dt.strftime("%Y-%m-%d")
 st.dataframe(filtered_df[["date", "actual", "predicted"]].reset_index(drop=True))
