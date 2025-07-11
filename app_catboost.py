@@ -2,13 +2,19 @@ import streamlit as st
 import pandas as pd
 import matplotlib.pyplot as plt
 import matplotlib.font_manager as fm
+import os
 from sklearn.metrics import mean_absolute_error, mean_squared_error
 import numpy as np
 
-# ① 한글 폰트 설정 (Windows)
-font_path = "C:/Windows/Fonts/malgun.ttf"
-font_name = fm.FontProperties(fname=font_path).get_name()
-plt.rc('font', family=font_name)
+# ① 한글 폰트 설정 (운영체제별 분기 처리)
+if os.name == 'nt':  # Windows
+    font_path = "C:/Windows/Fonts/malgun.ttf"
+    if os.path.exists(font_path):
+        font_name = fm.FontProperties(fname=font_path).get_name()
+        plt.rc('font', family=font_name)
+else:  # Linux (Streamlit Cloud 등)
+    plt.rc('font', family='DejaVu Sans')  # 리눅스에서 한글 호환 가능한 기본 폰트
+
 plt.rcParams['axes.unicode_minus'] = False
 
 # ② 데이터 불러오기
@@ -51,4 +57,3 @@ st.pyplot(fig)
 # ⑦ 데이터 테이블 (📄 전체 데이터 보기)
 st.subheader("📄 전체 수요 예측 데이터")
 st.dataframe(filtered_df[["date", "actual", "predicted"]].reset_index(drop=True))
-
